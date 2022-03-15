@@ -1,15 +1,15 @@
 import express from 'express'
-import { mapOrder } from '*/utilities/sorts.js'
+import { connectDB } from '*/config/mongodb'
+import { env } from '*/config/environment'
 
 const app = express()
 
-const hostname = 'localhost'
-const port = 8080
+connectDB()
 
 app.get('/', (req, res) => {
 	res.send('Hello world')
 })
 
-app.listen(port, hostname, () => {
-	console.log(`Server is listening on ${hostname}:${port}/`)
+app.listen(env.PORT, env.HOST, () => {
+	console.log(`Server is listening on ${env.HOST}:${env.PORT}/`)
 })
