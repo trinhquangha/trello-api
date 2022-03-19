@@ -7,7 +7,7 @@ const columnCollectionSchema = Joi.object({
 	title: Joi.string().min(3).max(20).required(),
 	cardOrder: Joi.array().items(Joi.string()).default([]),
 	createdAt: Joi.date().timestamp().default(Date.now()),
-	uodatedAt: Joi.date().timestamp().default(null),
+	updatedAt: Joi.date().timestamp().default(null),
 	_destroy: Joi.boolean().default(false),
 })
 
