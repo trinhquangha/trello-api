@@ -30,12 +30,20 @@ const validateSchema = async (data) => {
 
 const createNew = async (data) => {
 	try {
-		const value = await validateSchema(data)
-		const result = await getDB().collection(cardCollectionName).insertOne(value)
+		const validateValue = await validateSchema(data)
+		const insertValue = {
+			...validateValue,
+			boardId: ObjectId(validateValue.boardId),
+			columnId: ObjectId(validateValue.columnId),
+		}
+
+		const result = await getDB()
+			.collection(cardCollectionName)
+			.insertOne(insertValue)
 		return result
 	} catch (error) {
 		throw new Error(error)
 	}
 }
 
-export const CardModel = { findOneById, createNew }
+export const CardModel = { cardCollectionName, findOneById, createNew }
