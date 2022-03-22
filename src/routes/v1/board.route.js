@@ -1,14 +1,13 @@
-import express from 'express'
-import { BoardController } from '*/controllers/board.controller'
-import { BoardValidation } from '*/validations/board.validation'
+import express from 'express';
+import { BoardController } from '*/controllers/board.controller';
+import { BoardValidation } from '*/validations/board.validation';
 
-const router = express.Router()
+const router = express.Router();
 
 // Create new board
-router.post('/', BoardValidation.createNew, BoardController.createNew)
+router.post('/', BoardValidation.createNew, BoardController.createNew);
 
 //Get full a board
-router.get('/:id', BoardController.getFullBoard)
+router.get('/:id', BoardController.getFullBoard);
 
-
-export const BoardRoutes = router
+export const BoardRoutes = router;

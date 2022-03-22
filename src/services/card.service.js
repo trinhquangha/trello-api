@@ -1,23 +1,23 @@
-import { CardModel } from '*/models/card.model'
-import { ColumnModel } from '*/models/column.model'
+import { CardModel } from '*/models/card.model';
+import { ColumnModel } from '*/models/column.model';
 
 const createNew = async (data) => {
 	try {
-		const createdCard = await CardModel.createNew(data)
+		const createdCard = await CardModel.createNew(data);
 		const getNewCard = await CardModel.findOneById(
 			createdCard.insertedId.toString()
-		)
+		);
 
 		//Update card order array to column collection
 		await ColumnModel.pushCardOrder(
 			getNewCard.columnId.toString(),
 			getNewCard._id.toString()
-		)
+		);
 
-		return getNewCard
+		return getNewCard;
 	} catch (error) {
-		throw new Error(error)
+		throw new Error(error);
 	}
-}
+};
 
-export const CardService = { createNew }
+export const CardService = { createNew };

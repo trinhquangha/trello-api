@@ -1,36 +1,46 @@
-import { ColumnModel } from '*/models/column.model'
-import { BoardModel } from '*/models/board.model'
+import { ColumnModel } from '*/models/column.model';
+import { BoardModel } from '*/models/board.model';
+import { CardModel } from '*/models/card.model';
 
 const createNew = async (data) => {
 	try {
-		const createdColumn = await ColumnModel.createNew(data)
+		const createdColumn = await ColumnModel.createNew(data);
 		const getNewColumn = await ColumnModel.findOneById(
 			createdColumn.insertedId.toString()
-		)
+		);
 
+		getNewColumn.cards = [];
 		//Update column order array to board collection
 		await BoardModel.pushColumnOrder(
 			getNewColumn.boardId.toString(),
 			getNewColumn._id.toString()
-		)
+		);
 
-		return getNewColumn
+		return getNewColumn;
 	} catch (error) {
-		throw new Error(error)
+		throw new Error(error);
 	}
-}
+};
 
 const update = async (id, data) => {
 	try {
-		const updatedData = {
+		const updateData = {
 			...data,
 			updatedAt: Date.now(),
-		}
-		const result = await ColumnModel.update(id, updatedData)
-		return result
-	} catch (error) {
-		throw new Error(error)
-	}
-}
+		};
+		if (updateData._id) delete updateData._id;
+		if (updateData.cards) delete updateData.cards;
 
-export const ColumnService = { createNew, update }
+		const updatedColumn = await ColumnModel.update(id, updateData);
+
+		if (updatedColumn._destroy) {
+			//Delete many cards in this column
+			CardModel.deleteMany(updatedColumn.cardOrder);
+		}
+		return updatedColumn;
+	} catch (error) {
+		throw new Error(error);
+	}
+};
+
+export const ColumnService = { createNew, update };
