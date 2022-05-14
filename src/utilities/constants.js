@@ -9,4 +9,5 @@ export const HttpStatusCode = {
 export const WHITE_LIST_DOMAINS = [
 	'http://localhost:3000',
 	'http://localhost:3001',
+	'https://trello-clone-app-trinhquangha.netlify.app',
 ];
